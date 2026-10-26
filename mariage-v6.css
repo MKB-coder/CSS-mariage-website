@@ -59,7 +59,7 @@
   --fond-reponse: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/reponse.jpg");
   --fond-contact: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/contact.jpg");
   --fond-galerie: var(--fond-theme);
-  --fond-jour-j: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/jour-j.jpg");
+  --fond-jour-j: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/lauriers.jpg"); /* Domaine des Lauriers de la Bastide */
 
   /* Ancien décor (Pyrénées dessinées) : gardé pour les pages sans photo (Hôtels & Gîtes) */
   --fond-montagnes: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400' preserveAspectRatio='xMidYMax slice'%3E%3Cpath fill='%23d5dde1' d='M0 250 L110 165 L190 210 L330 95 L450 205 L560 140 L700 225 L840 105 L960 195 L1080 130 L1220 210 L1340 150 L1440 200 V400 H0Z'/%3E%3Cpath fill='%23ffffff' opacity='.7' d='M330 95 L305 135 L330 125 L352 140Z M840 105 L815 145 L840 135 L862 150Z M560 140 L542 170 L560 162 L578 174Z'/%3E%3Cpath fill='%23aebdc4' d='M0 300 L150 225 L260 268 L400 195 L540 278 L680 215 L820 290 L980 205 L1120 280 L1260 225 L1440 290 V400 H0Z'/%3E%3Cpath fill='%23c3d1ac' d='M0 340 Q360 298 720 335 T1440 318 V400 H0Z'/%3E%3Cpath fill='%23a9bf90' d='M0 378 Q400 345 800 374 T1440 360 V400 H0Z'/%3E%3C/svg%3E");
@@ -169,7 +169,11 @@ html {
 }
 #page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) {
   --fond-decor: var(--fond-jour-j);
-  --cadrage-decor: center 40%;
+  --cadrage-decor: center 60%;
+}
+/* la photo du domaine est petite : un léger flou évite l'effet pixelisé */
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"])::before {
+  filter: blur(2px) saturate(1.05);
 }
 #page-top:has(.navbar-nav > li.active > a[href*="/reponse"]) {
   --fond-decor: var(--fond-reponse);
@@ -877,6 +881,175 @@ html {
   margin: 0 0 0.7rem;
   padding-left: 1.4rem;
   text-indent: -1.4rem;
+}
+
+/* =====================================================================
+   7b. JOUR J (/fr/lieu/) : la mairie à gauche, la réception à droite
+   Structure réelle : .container.mt-6 > .row > .col-md-4 > div > .ibox
+   (le lieu de réception). Tant qu'un seul lieu est saisi sur WeddingPlan,
+   le CSS ajoute la carte de la mairie d'Auterive à gauche. Si vous ajoutez
+   un deuxième lieu sur le site, cette carte ajoutée disparaît toute seule.
+   ===================================================================== */
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 400px));
+  grid-template-rows: auto auto auto 1fr;
+  grid-template-areas:
+    "mairie-titre reception"
+    "mairie-date  reception"
+    "mairie-adresse reception"
+    ".            reception";
+  justify-content: center;
+  column-gap: clamp(1.5rem, 5vw, 4.5rem);
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) > .row:first-child {
+  grid-area: reception;
+  margin: 0;
+}
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) > .row:first-child > [class*="col-"] {
+  float: none;
+  width: 100%;
+  margin-left: 0;
+  padding: 0;
+}
+
+/* Les deux cartes : même allure, texte centré */
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox,
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content {
+  padding: 0;
+  text-align: center;
+  font-family: var(--police-texte);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: var(--encre);
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content > div:empty {
+  display: none;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content h3,
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox)::before {
+  font-family: var(--police-script);
+  font-size: clamp(24px, 2.4vw, 30px);
+  font-weight: 400;
+  line-height: 1.3;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--dore);
+  text-align: center;
+  margin: 0 0 1rem;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content .date-place,
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox)::after {
+  font-family: var(--police-paragraphe);
+  font-size: var(--taille-paragraphe-imposant);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.45;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--encre);
+  text-align: center;
+  margin: 0 auto 0.6rem;
+}
+/* pas de lettrine sur les dates : les deux cartes restent identiques */
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content .date-place::first-letter {
+  font: inherit;
+  color: inherit;
+  padding: 0;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content > br:first-of-type {
+  display: none;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--sauge);
+}
+
+/* Texte d'introduction : plus large et sans les grands espaces du texte justifié */
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .col-md-8.col-md-offset-1:has(> h1.inlove-heading) {
+  width: 100%;
+  margin-left: 0;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) p[style*="justify"] {
+  text-align: center !important;
+}
+
+/* Heure de la réception : 16 h */
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content .date-place {
+  font-size: 0;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content .date-place::before {
+  content: "Samedi 25 septembre 2027 à 16:00";
+  font-size: var(--taille-paragraphe-imposant);
+}
+
+/* Carte ajoutée : la mairie d'Auterive (titre, date, adresse) */
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox)::before {
+  content: "Cérémonie civile - MAIRIE D'AUTERIVE";
+  display: block;
+  grid-area: mairie-titre;
+}
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox)::after {
+  content: "Samedi 25 septembre 2027 à 13:30";
+  display: block;
+  grid-area: mairie-date;
+}
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) > .row + .row {
+  display: block !important; /* la ligne masquée du site sert à afficher l'adresse */
+  grid-area: mairie-adresse;
+  margin: 0;
+}
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) > .row + .row > * {
+  display: none;
+}
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) > .row + .row::before {
+  content: "Place du 11 Novembre 1918\A 31190 AUTERIVE";
+  display: block;
+  white-space: pre-line;
+  text-align: center;
+  font-family: var(--police-texte);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  text-transform: uppercase;
+  color: var(--encre);
+  margin-top: 0.4rem;
+}
+#page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) > .row + .row::after {
+  display: none;
+}
+
+/* Le grand cadre vide du site sous les lieux est réduit */
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox {
+  margin-bottom: 0;
+}
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .container.mt-6 [style*="min-height:290px"] {
+  min-height: 0 !important;
+}
+
+/* Téléphone : les deux cartes l'une sous l'autre, la mairie en premier */
+@media (max-width: 767px) {
+  #page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas: "mairie-titre" "mairie-date" "mairie-adresse" "reception";
+    row-gap: 0;
+  }
+  #page-top .container.mt-6:has(> .row:first-child > [class*="col-"]:only-child .ibox) > .row:first-child {
+    margin-top: 2.5rem;
+  }
 }
 
 /* =====================================================================
