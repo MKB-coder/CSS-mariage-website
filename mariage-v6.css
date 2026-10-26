@@ -46,7 +46,9 @@
   --or: #b08a3e;       /* doré des titres de la galerie */
   --or-clair: #dcbc6c;
   --blanc: #ffffff;
-  --voile-accueil: rgba(40, 28, 16, 0.5); /* assombrit la photo d'accueil */
+  --voile-accueil: rgba(40, 28, 16, 0.32); /* assombrit légèrement le haut et le bas de la photo d'accueil */
+  /* Photo du compte à rebours (accueil) : affichée en entier, sans être recadrée */
+  --photo-accueil: url("https://cdn.weddingplan.fr/client_55563/images/102526091250_cf47c3afe596df55bd80367cb4b76b36_886.jpg");
 
   /* Photos de fond, une par page. Elles occupent la place des anciennes
      montagnes (bas de l'écran) et s'effacent vers le haut : le milieu de la
@@ -386,16 +388,28 @@ html {
 #page-top .index-div {
   position: relative;
 }
+/* La photo est affichée en entier et nette au centre (::after),
+   ses côtés sont prolongés par la même photo floutée (::before) */
+#page-top .index-div {
+  background: #3a2f26 !important;
+  overflow: hidden;
+}
 #page-top .index-div::before {
   content: "";
   position: absolute;
+  inset: -30px;
+  background: var(--photo-accueil) center / cover no-repeat;
+  filter: blur(22px) brightness(0.8);
+  z-index: 0;
+  pointer-events: none;
+}
+#page-top .index-div::after {
+  content: "";
+  position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--voile-accueil) 0%,
-    rgba(40, 28, 16, 0.25) 45%,
-    var(--voile-accueil) 100%
-  );
+  background:
+    linear-gradient(to bottom, rgba(40, 28, 16, 0.55) 0%, rgba(40, 28, 16, 0.3) 38%, transparent 55%, transparent 70%, var(--voile-accueil) 100%),
+    var(--photo-accueil) center / contain no-repeat;
   z-index: 0;
   pointer-events: none;
 }
@@ -706,7 +720,8 @@ html {
 }
 
 /* Chaque photo : son titre doré au-dessus, puis la photo rectangulaire
-   ou carrée aux coins arrondis. Tailles en colonnes : 1 = petite, 2 = grande.
+   ou carrée aux coins arrondis, dans son sens d'origine.
+   Tailles en colonnes : 1 = petite, 2 = grande.
    (La première photo doit rester petite : elle sert de mesure au site.) */
 #page-top .masonry-gallery .gallery-item {
   display: block;
@@ -728,7 +743,7 @@ html {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: var(--ratio, 1 / 1);
+  aspect-ratio: auto;
   object-fit: cover;
   border-radius: var(--arrondi, 1.1rem);
   box-shadow: 0 8px 22px rgba(58, 51, 46, 0.14);
@@ -764,14 +779,16 @@ html {
   display: var(--legendes, none);
 }
 
-/* Tailles et formes variées (motif de 7 photos qui se répète) */
-#page-top .masonry-gallery .gallery-item:nth-child(7n + 1) { --ratio: 3 / 4;  --arrondi: 1.4rem; }
-#page-top .masonry-gallery .gallery-item:nth-child(7n + 2) { --ratio: 3 / 2;  --arrondi: 1.8rem; --largeur: 50%; }
-#page-top .masonry-gallery .gallery-item:nth-child(7n + 3) { --ratio: 1 / 1;  --arrondi: 1rem; }
-#page-top .masonry-gallery .gallery-item:nth-child(7n + 4) { --ratio: 4 / 5;  --arrondi: 2.2rem; }
-#page-top .masonry-gallery .gallery-item:nth-child(7n + 5) { --ratio: 2 / 3;  --arrondi: 1.2rem; }
-#page-top .masonry-gallery .gallery-item:nth-child(7n + 6) { --ratio: 16 / 10; --arrondi: 1.6rem; --largeur: 50%; }
-#page-top .masonry-gallery .gallery-item:nth-child(7n)     { --ratio: 1 / 1;  --arrondi: 2.4rem; }
+/* Chaque photo garde son sens d'origine : les horizontales restent
+   horizontales, les verticales verticales, sans être recadrées.
+   Les tailles varient (motif de 7 photos qui se répète). */
+#page-top .masonry-gallery .gallery-item:nth-child(7n + 1) { --arrondi: 1.4rem; }
+#page-top .masonry-gallery .gallery-item:nth-child(7n + 2) { --arrondi: 1.8rem; --largeur: 50%; }
+#page-top .masonry-gallery .gallery-item:nth-child(7n + 3) { --arrondi: 1rem; }
+#page-top .masonry-gallery .gallery-item:nth-child(7n + 4) { --arrondi: 2.2rem; }
+#page-top .masonry-gallery .gallery-item:nth-child(7n + 5) { --arrondi: 1.2rem; }
+#page-top .masonry-gallery .gallery-item:nth-child(7n + 6) { --arrondi: 1.6rem; --largeur: 50%; }
+#page-top .masonry-gallery .gallery-item:nth-child(7n)     { --arrondi: 2.4rem; }
 #page-top .masonry-gallery .gallery-item:first-child { --largeur: 25%; }
 
 /* Tablette : 3 colonnes */
