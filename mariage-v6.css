@@ -57,9 +57,7 @@
   --fond-reponse: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/reponse.jpg");
   --fond-contact: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/contact.jpg");
   --fond-galerie: var(--fond-theme);
-  /* Jour J : photo pas encore fournie. Quand elle est en ligne, remplacez par
-     url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/jour-j.jpg") */
-  --fond-jour-j: var(--fond-montagnes);
+  --fond-jour-j: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/jour-j.jpg");
 
   /* Ancien décor (Pyrénées dessinées) : gardé pour les pages sans photo (Hôtels & Gîtes) */
   --fond-montagnes: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400' preserveAspectRatio='xMidYMax slice'%3E%3Cpath fill='%23d5dde1' d='M0 250 L110 165 L190 210 L330 95 L450 205 L560 140 L700 225 L840 105 L960 195 L1080 130 L1220 210 L1340 150 L1440 200 V400 H0Z'/%3E%3Cpath fill='%23ffffff' opacity='.7' d='M330 95 L305 135 L330 125 L352 140Z M840 105 L815 145 L840 135 L862 150Z M560 140 L542 170 L560 162 L578 174Z'/%3E%3Cpath fill='%23aebdc4' d='M0 300 L150 225 L260 268 L400 195 L540 278 L680 215 L820 290 L980 205 L1120 280 L1260 225 L1440 290 V400 H0Z'/%3E%3Cpath fill='%23c3d1ac' d='M0 340 Q360 298 720 335 T1440 318 V400 H0Z'/%3E%3Cpath fill='%23a9bf90' d='M0 378 Q400 345 800 374 T1440 360 V400 H0Z'/%3E%3C/svg%3E");
@@ -67,7 +65,7 @@
   --cadrage-decor: center bottom; /* partie de la photo mise en avant */
 
   /* Photo de couverture de l'album « Les années passent et les souvenirs restent »
-     (photo 4545.jpg de la galerie) : collez ici son adresse. */
+     (photo 4545.jpg de la galerie). */
   --photo-album: url("https://cdn.jsdelivr.net/gh/MKB-coder/CSS-mariage-website@main/images/4545.jpg");
 
   --hauteur-decor: 42vh;
@@ -169,6 +167,7 @@ html {
 }
 #page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) {
   --fond-decor: var(--fond-jour-j);
+  --cadrage-decor: center 40%;
 }
 #page-top:has(.navbar-nav > li.active > a[href*="/reponse"]) {
   --fond-decor: var(--fond-reponse);
@@ -619,7 +618,7 @@ html {
   aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 50% 50% 1.2rem 1.2rem / 38% 38% 1.2rem 1.2rem;
-  background: var(--photo-album) center / cover no-repeat, var(--ivoire);
+  background: var(--photo-album) center 30% / cover no-repeat, var(--ivoire);
   box-shadow: 0 10px 28px rgba(58, 51, 46, 0.16);
   transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease;
 }

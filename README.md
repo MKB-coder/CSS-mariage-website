@@ -9,7 +9,3 @@ Feuille de style du site de mariage de Mélissa & Quentin (WeddingPlan, thème I
   (ce lien ne fonctionne que si le dépôt est **public** et la branche `main` à jour).
   Autre solution : envoyer les photos sur WeddingPlan et coller leurs adresses
   dans la partie « RÉGLAGES » en haut du CSS (`--fond-accueil`, `--fond-theme`…).
-
-Photos encore attendues :
-- `images/jour-j.jpg` (page Jour J, en attendant le décor de montagnes reste affiché)
-- `images/4545.jpg` (couverture de l'album de la galerie), ou son adresse dans `--photo-album`
