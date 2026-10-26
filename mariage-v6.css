@@ -1091,11 +1091,12 @@ html {
 }
 
 
-/* Heure de la réception : 16 h */
-#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content .date-place {
+/* Heure de la réception : 16 h (uniquement la carte des Lauriers de la Bastide,
+   reconnue par son lien « Plus de détails » ; la mairie garde son heure) */
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content:has(a[href*="/lieu/show/87730"]) .date-place {
   font-size: 0;
 }
-#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content .date-place::before {
+#page-top:has(.navbar-nav > li.active > a[href*="/lieu"]) .ibox-content:has(a[href*="/lieu/show/87730"]) .date-place::before {
   content: "Samedi 25 septembre 2027 à 16:00";
   font-size: var(--taille-paragraphe-imposant);
 }
